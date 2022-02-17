@@ -2,8 +2,10 @@
   "name": "template-webpack",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {},
+  "private": true,
+  "scripts": {
+    "build": "webpack"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gromalex/template-webpack.git"
