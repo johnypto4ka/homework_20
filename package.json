@@ -1,0 +1,17 @@
+{
+  "name": "template-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gromalex/template-webpack.git"
+  },
+  "author": "Alexey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gromalex/template-webpack/issues"
+  },
+  "homepage": "https://github.com/gromalex/template-webpack#readme"
+}
