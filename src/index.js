@@ -1,5 +1,3 @@
-console.log('index.js')
+import './scss/app.scss'
 
-import { $ } from './module'
-
-console.log($('h1'))
+console.log('Hello')
