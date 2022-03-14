@@ -1,101 +1,81 @@
-import { Modal } from 'bootstrap'
-import { resetForm } from './helpers'
-
-class Create {
-  constructor (formElement) {
-    this.formElement = formElement
-    this.createPostButton = document.querySelector('#buttonCreatePost')
-
+class Post {
+  constructor (container) {
+    this.container = container
+    this.templateElement = document.querySelector('#postTemplate')
     this.baseUrl = '/api/posts'
-    this.instensModal = Modal.getOrCreateInstance(document.querySelector('#blogModal'))
+    this.currentPost = {}
+    this.url = ''
 
     this.init()
   }
 
   init () {
-    this.formElement.addEventListener('submit', this.handleFormSubmit.bind(this))
-    this.createPostButton.addEventListener('click', this.handlePostCreateClick.bind(this))
-    window.addEventListener('post.edit', this.handlePostEdit.bind(this))
+    window.addEventListener('posts.click', this.handlePostListClick.bind(this))
+    window.addEventListener('form.edited', this.handleFormEdited.bind(this))
+    this.container.addEventListener('click', this.handleClickButtonRemove.bind(this))
+    this.container.addEventListener('click', this.handleClickButtonEdit.bind(this))
   }
 
-  handleFormSubmit (event) {
-    event.preventDefault()
+  handlePostListClick (event) {
+    const { id } = event.detail
+    const url = `${this.baseUrl}/${id}`
+    this.url = url
 
-    const post = {
-      id: nanoid(),
-      createdAt: this.currentDate()
-    }
-
-    const formData = new FormData(this.formElement)
-
-    for (const [name, value] of formData) {
-      if (value) {
-        post[name] = value
-      }
-    }
-
-    this.sendData(post)
-    this.instensModal.hide()
-    resetForm(this.formElement)
-  }
-
-  handlePostCreateClick () {
-    resetForm(this.formElement)
-    this.instensModal.show()
-
-    this.formElement.setAttribute('data-method', 'POST')
-  }
-
-  handlePostEdit (event) {
-    resetForm(this.formElement)
-    this.instensModal.show()
-
-    this.formElement.setAttribute('data-method', 'PUT')
-
-    const { data } = event.detail
-
-    for (const key in data) {
-      this.formElement.querySelector(`[name="${key}"]`).value = data[key]
-    }
-  }
-
-  sendData (posts) {
-    const json = JSON.stringify(posts)
-    const { method } = this.formElement.dataset
-    let url = this.baseUrl
-
-    if (method == 'PUT') {
-      url = `${this.baseUrl}/${posts.id}`
-
-      const event = new CustomEvent('form.saved', {
-        detail: { posts }
-      })
-      window.dispatchEvent(event)
-    }
-
-    fetch(url, {
-      method,
-      body: json,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    fetch(url)
       .then(response => response.json())
       .then(data => {
-        const event = new CustomEvent('form.sent', {
-          detail: { data }
-        })
-        window.dispatchEvent(event)
+        this.currentPost = data
+        this.render(data)
       })
   }
 
-  currentDate () {
-    const date = new Date()
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }
+  handleFormEdited (event) {
+    const { posts } = event.detail
+    this.render(posts)
+  }
 
-    const stringtDate = date.toLocaleDateString('to-EN', options)
-    return stringtDate
+  buildTemplate (data) {
+    let template = this.templateElement.innerHTML
+
+    for (const key in data) {
+      template = template.replaceAll(`{{${key}}}`, data[key])
+    }
+
+    return template
+  }
+
+  render (data) {
+    const template = this.buildTemplate(data)
+
+    this.container.innerHTML = template
+  }
+
+  handleClickButtonRemove (event) {
+    const { role } = event.target.dataset
+    if (role == 'remove') {
+      fetch(this.url, {
+        method: 'DELETE'
+      })
+        .then(response => response.json())
+        .then(data => {
+          const customEvent = new CustomEvent('post.removed', {
+            detail: { data }
+          })
+          window.dispatchEvent(customEvent)
+          this.container.innerHTML = ''
+        })
+    }
+  }
+
+  handleClickButtonEdit (event) {
+    const { role } = event.target.dataset
+    if (role == 'edit') {
+      const customEvent = new CustomEvent('post.edit', {
+        detail: { data: this.currentPost }
+      })
+      window.dispatchEvent(customEvent)
+    }
   }
 }
 
-export { Create }
+export { Post }

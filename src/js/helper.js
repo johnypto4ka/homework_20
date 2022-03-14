@@ -1,9 +1,9 @@
 function resetForm (formElement) {
   formElement.reset()
 
-  const hiddenInputElements = [...formElement.querySelectorAll('[type="hidden"]')]
+  const inputHiddenElements = [...formElement.querySelectorAll('[type="hidden"]')]
 
-  hiddenInputElements.forEach(item => {
+  inputHiddenElements.forEach(item => {
     item.value = ''
   })
 }

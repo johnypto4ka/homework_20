@@ -1,12 +1,14 @@
 @import './title';
-@import './island';
+@import './blog';
+@import './post';
 @import '~bootstrap/scss/bootstrap';
 
 * {
   padding: 0;
   margin: 0;
   border: 0;
+  box-sizing: border-box;
 }
 body {
-  background: rgb(161, 161, 161);
+  background: url(../img/milky-way-3840x2160.jpg) center no-repeat;
 }
