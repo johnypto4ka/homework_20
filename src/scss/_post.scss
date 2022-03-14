@@ -2,22 +2,34 @@
   height: 500px;
 }
 .post__box {
-  height: 500px;
+  min-height: 500px;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
-  padding: 15px;
+  padding: 10px 15px;
 }
 
 .list {
   margin-right: 20px;
 }
 .list__item {
-  margin: 5px 0;
-  border-bottom: 1px solid rgb(126, 126, 126);
-  &:last-child {
-    border: none;
-  }
+  background-color: rgba(255, 255, 255, 0.404);
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid rgb(255, 115, 1);
+  border-radius: 5px;
   &_active {
     color: rgb(16, 82, 224);
   }
+}
+.post__info {
+  display: flex;
+}
+.post__item {
+  margin-right: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.404);
+}
+.post__content {
+  min-height: 280px;
 }

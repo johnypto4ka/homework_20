@@ -11,9 +11,10 @@
 		<div class="container">
 			<div class="blog">
 				<div class="blog__header">
-					<div class="d-flex">
-						<h2 class="title">Blog</h2>
-						<button class="btn btn-primary ms-auto" id="buttonCreatePost">Создать пост</button>
+					<div class="header__wrapper">
+						<div class="header__logo"></div>
+
+						<button class="btn_create" id="buttonCreatePost">Создать пост</button>
 					</div>
 				</div>
 				<div class="blog__content">
@@ -33,7 +34,7 @@
 			<div class="modal-dialog">
 				<div class="modal-content" style='border-radius: 1.5rem !important;'>
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Заполни свой блог! :)</h5>
+						<h5 class="modal-title" id="exampleModalLabel"> Введите данные </h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 
@@ -53,20 +54,15 @@
 								<input type="text" class="form-control" id="inputAuthor" name='author'>
 							</div>
 							<div class="mb-3">
-								<label for="inputType" class="form-label">Выберите сферу поста</label>
+								<label for="inputType" class="form-label">Тема поста</label>
 								<select class="form-control" id="inputType" name='type'>
 									<option value="select" hidden disabled selected></option>
-									<option value="Спорт">Спорт</option>
-									<option value="IT">IT</option>
-									<option value="Музыка">Музыка</option>
-									<option value="Фильмы">Фильмы</option>
+									<option value="Технологии">Технологии</option>
+									<option value="Политика">Политика</option>
+									<option value="Искусство">Искусство</option>
+									<option value="Фильмы">Спорт</option>
 									<option value="Другое">Другое</option>
 								</select>
-							</div>
-							<div class="mb-3">
-								<label for="inputSummary" class="form-label">Лид</label>
-								<textarea type="text" class="form-control" id="inputSummary" name='summary' cols="3"
-									rows="1"></textarea>
 							</div>
 							<div class="mb-3">
 								<label for="inputContent" class="form-label">Содержание</label>
@@ -85,14 +81,15 @@
 
 	<template id='postTemplate'>
 		<h2> {{title}} </h2>
-		<h5 class='mb-2 post__summary'> {{summary}} </h5>
-		<div class='mb-2 post__author'>Автор: <span> {{author}} </span></div>
-		<div class='mb-2 post__type'>Сфера: <span> {{type}} </span></div>
+    <div class="post__info">
+      <div class='mb-2 post__item'>Автор: <span> {{author}} </span></div>
+		  <div class='mb-2 post__item'>Тема: <span> {{type}} </span></div>
+    </div>
 		<div class='mb-2 post__content'> {{content}} </div>
-		<div class='post__date'> {{createdAt}} </div>
+		<div class="post__date"> {{createdAt}} </div>
 
-		<button class='mt-3 btn btn-primary edit-btn' data-role="edit">Редактировать</button>
-		<button class='mt-3 btn btn-danger ms-3' data-role="remove">Удалить</button>
+		<button class="mt-3 btn btn-primary edit-btn" data-role="edit">Редактировать</button>
+		<button class="mt-3 btn btn-danger ms-3" data-role="remove">Удалить</button>
 	</template>
 	</body>
 </html>
