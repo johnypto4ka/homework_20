@@ -13,13 +13,11 @@ class Posts {
     this.containerElement.addEventListener('click', this.handleClickListItem.bind(this))
   }
 
-  handleDOMReady () {
-    fetch(this.baseUrl)
-      .then(response => response.json())
-      .then(data => {
-        const { list } = data
-        this.render(list)
-      })
+  async handleDOMReady () {
+    const responce = await fetch(this.baseUrl)
+    const data = await responce.json()
+    const { list } = data
+    this.render(list)
   }
 
   handleDataSent ({ detail }) {

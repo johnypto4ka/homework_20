@@ -57,7 +57,7 @@ class Form {
     }
   }
 
-  sendData (post) {
+  async sendData (post) {
     const json = JSON.stringify(post)
     const { method } = this.formElement.dataset
     let url = this.baseUrl
@@ -71,21 +71,18 @@ class Form {
       window.dispatchEvent(event)
     }
 
-    fetch(url, {
+    const responce = await fetch(url, {
       method,
       body: json,
       headers: {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .then(data => {
-        const event = new CustomEvent('form.sent', {
-          detail: { data }
-        })
-        window.dispatchEvent(event)
+      const data = await responce.json()
+      const event = new CustomEvent('form.sent', {
+        detail: { data }
       })
+      window.dispatchEvent(event)
   }
 
   currentDate () {

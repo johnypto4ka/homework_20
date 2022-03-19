@@ -16,17 +16,15 @@ class Post {
     this.container.addEventListener('click', this.handleClickButtonEdit.bind(this))
   }
 
-  handlePostListClick (event) {
+  async handlePostListClick (event) {
     const { id } = event.detail
     const url = `${this.baseUrl}/${id}`
     this.url = url
 
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        this.currentPost = data
-        this.render(data)
-      })
+    const responce = await fetch(this.url)
+    const data = await responce.json()
+      this.currentPost = data
+      this.render(data)
   }
 
   handleFormEdited (event) {
@@ -50,20 +48,18 @@ class Post {
     this.container.innerHTML = template
   }
 
-  handleClickButtonRemove (event) {
+  async handleClickButtonRemove (event) {
     const { role } = event.target.dataset
     if (role == 'remove') {
-      fetch(this.url, {
+      await fetch(this.url, {
         method: 'DELETE'
       })
-        .then(response => response.json())
-        .then(data => {
-          const customEvent = new CustomEvent('post.removed', {
-            detail: { data }
-          })
-          window.dispatchEvent(customEvent)
-          this.container.innerHTML = ''
+      const data = await responce.json()
+        const customEvent = new CustomEvent('post.removed', {
+          detail: { data }
         })
+        window.dispatchEvent(customEvent)
+        this.container.innerHTML = ''
     }
   }
 
