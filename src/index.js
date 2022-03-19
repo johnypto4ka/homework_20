@@ -3,6 +3,7 @@ import {Modal} from 'bootstrap'
 import {Form} from './js/form'
 import {Posts} from './js/posts'
 import {Post} from './js/post'
+import { marked } from 'marked'
 
 // -----------------------------
 
